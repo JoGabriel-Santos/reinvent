@@ -4,7 +4,7 @@ const Card = (props) => {
 
     return (
         <div className="card-design">
-            <img className="card-design--photo vertical" src={props.image} alt=""/>
+            <img src={props.image} alt=""/>
 
             <div className="card-design--info">
                 <div className="info-uploader">

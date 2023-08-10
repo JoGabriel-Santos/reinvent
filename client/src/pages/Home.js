@@ -13,6 +13,13 @@ const Home = () => {
         require("../util/images/design_5.jpeg"),
         require("../util/images/design_6.jpeg"),
         require("../util/images/design_7.jpeg"),
+        require("../util/images/design_1.jpeg"),
+        require("../util/images/design_2.jpeg"),
+        require("../util/images/design_3.jpeg"),
+        require("../util/images/design_4.jpeg"),
+        require("../util/images/design_5.jpeg"),
+        require("../util/images/design_6.jpeg"),
+        require("../util/images/design_7.jpeg"),
     ]);
 
     return (
