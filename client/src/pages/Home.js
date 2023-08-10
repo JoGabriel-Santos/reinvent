@@ -41,6 +41,41 @@ const Home = () => {
                 </div>
             </section>
 
+            <section className="section-filters">
+                <div className="filters-content">
+                    <div className="filters-button">
+                        <ion-icon name="document-outline"></ion-icon>
+                        <span>Formato</span>
+                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+                    </div>
+
+                    <div className="filters-button">
+                        <ion-icon name="star-outline"></ion-icon>
+                        <span>Licença</span>
+                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+                    </div>
+
+                    <div className="filters-button">
+                        <ion-icon name="sync-outline"></ion-icon>
+                        <span>Orientação</span>
+                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+                    </div>
+
+                    <div className="filters-button">
+                        <ion-icon name="square-outline"></ion-icon>
+                        <span>Conteúdo exclusivo</span>
+                    </div>
+                </div>
+
+                <div className="filters-sort">
+                    <div className="filters-button">
+                        <ion-icon name="reorder-three-outline"></ion-icon>
+                        <span>Em alta</span>
+                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+                    </div>
+                </div>
+            </section>
+
             <section className="section-designs">
                 <div className="section-designs--grid">
                     {

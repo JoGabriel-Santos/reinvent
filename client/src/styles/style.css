@@ -311,13 +311,12 @@ ion-icon {
     color: #F14405;
 }
 
-
 /* ----------- HOME ----------- */
 
 .section-hero {
     margin: 0 auto;
     max-width: 120rem;
-    padding: 8.8rem 3.2rem;
+    padding: 7.2rem 3.2rem;
 }
 
 .section-hero--container {
@@ -442,3 +441,31 @@ ion-icon {
     font-weight: 500;
 }
 
+/* ----------- FILTERS ----------- */
+
+.section-filters {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 7.8rem;
+}
+
+.filters-content {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+.filters-button {
+    align-items: center;
+    border: rgba(51, 51, 51, 0.55) 1px solid;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: .4rem 1.2rem;
+}
+
+.filters-button span {
+    padding: 0 5px;
+}
