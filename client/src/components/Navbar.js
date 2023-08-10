@@ -41,9 +41,23 @@ function Navbar() {
                 </div>
 
                 <div className="header-user">
-                    <h4 className="header-user--home">Torne-se Premium</h4>
+                    <div className="header-user--cart">
+                        <div className="cart-icon">
+                            <ion-icon name="cart-outline" size="large"></ion-icon>
+                        </div>
 
-                    <ion-icon name="star-outline"></ion-icon>
+                        <div className="cart-quantity">
+                            <span>2</span>
+                        </div>
+
+                        <div className="cart-info">
+                            <h6 className="cart-name">Meu carrinho</h6>
+                            <div className="cart-payment">
+                                <span>R$ 0.00</span>
+                                <ion-icon name="caret-down-outline" size="small"></ion-icon>
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="header-user--info" onClick={handleMenuClick}>
                         <img className="header-user--menu" src={require("../util/icons/menu.png")} alt=""/>
@@ -65,6 +79,22 @@ function Navbar() {
                     }
                 </div>
             </header>
+
+            <section className="section-categories">
+                <ul className="section-categories--list">
+                    <li className="categories-list">Home</li>
+                    <li className="categories-list">Coleções</li>
+                    <li className="categories-list">PSD</li>
+                    <li className="categories-list">PNG</li>
+                    <li className="categories-list">Fotos</li>
+                    <li className="categories-list">Vetores</li>
+                    <li className="categories-list">Texturas</li>
+                    <li className="categories-list">Vídeos</li>
+                    <li className="categories-list">Apresentações</li>
+                    <li className="categories-list">Mockups</li>
+                    <li className="categories-list">Mais categorias</li>
+                </ul>
+            </section>
 
             {
                 showLogin && <Login closeLogin={toggleShowLogin}/>
