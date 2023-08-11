@@ -53,7 +53,7 @@ function Navbar() {
                         <div className="cart-info">
                             <h6 className="cart-name">Meu carrinho</h6>
                             <div className="cart-payment">
-                                <span>R$ 0.00</span>
+                                <span>R$ 64.00</span>
                                 <ion-icon name="caret-down-outline" size="small"></ion-icon>
                             </div>
                         </div>
@@ -70,9 +70,6 @@ function Navbar() {
                                 <ul className="options-list">
                                     <li className="option" onClick={toggleShowLogin}>Log in</li>
                                     <li className="option">Sign up</li>
-                                    <li className="option">Airbnb your home</li>
-                                    <li className="option">Host an experience</li>
-                                    <li className="option">Help</li>
                                 </ul>
                             </div>
                         )
@@ -92,7 +89,10 @@ function Navbar() {
                     <li className="categories-list">Vídeos</li>
                     <li className="categories-list">Apresentações</li>
                     <li className="categories-list">Mockups</li>
-                    <li className="categories-list">Mais categorias</li>
+                    <li className="categories-list">
+                        Mais categorias
+                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+                    </li>
                 </ul>
             </section>
 

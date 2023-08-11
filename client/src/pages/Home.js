@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-
-import Navbar from "../components/Navbar";
 import Card from "../components/Card";
 
 const Home = () => {
@@ -24,8 +22,6 @@ const Home = () => {
 
     return (
         <React.Fragment>
-            <Navbar/>
-
             <section className="section-hero">
                 <div className="section-hero--container">
                     <h1 className="container-title">Muito mais que um banco de imagens</h1>
