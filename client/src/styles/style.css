@@ -174,9 +174,12 @@ ion-icon {
 }
 
 .option {
+    align-items: center;
     cursor: pointer;
+    display: flex;
     font-size: 1.4rem;
-    font-weight: 400;
+    font-weight: 500;
+    gap: 8px;
     opacity: .8;
     padding: 10px;
     transition: .3s all;
@@ -184,6 +187,10 @@ ion-icon {
 
 .option:hover {
     opacity: 1;
+}
+
+.option span {
+    padding-top: 2px;
 }
 
 .show-menu {
@@ -612,4 +619,25 @@ ion-icon {
 
 .info--button:hover {
     background-color: #d33300;
+}
+
+.section-account {
+    margin: 0 auto;
+    max-width: 120rem;
+    padding: 7.2rem 3.2rem;
+}
+
+.section-account--container {
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.account-title {
+
+}
+
+.account-descr {
+
 }

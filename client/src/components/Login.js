@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import * as API from "../api/index";
 
-function Login(props) {
+const Login = (props) => {
     const [isLoggingIn, setIsLoggingIn] = useState(true);
 
     const [name, setName] = useState('');

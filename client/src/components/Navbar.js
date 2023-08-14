@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import Login from "./Login";
 
-function Navbar() {
+const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const [bgOpacity, setBgOpacity] = useState(0)
+    const [bgOpacity, setBgOpacity] = useState(0);
 
-    const location = useLocation();
+    const navigate = useNavigate();
 
     function handleMenuClick() {
-        setShowMenu(!showMenu);
+        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+
+        if (userLogged) {
+            setShowMenu(!showMenu);
+
+        } else {
+            toggleShowLogin();
+        }
     }
 
     function toggleShowLogin() {
@@ -68,8 +74,22 @@ function Navbar() {
                         showMenu && (
                             <div className="header-user--options">
                                 <ul className="options-list">
-                                    <li className="option" onClick={toggleShowLogin}>Log in</li>
-                                    <li className="option">Sign up</li>
+                                    <li className="option">
+                                        <ion-icon name="apps-outline" size="small"></ion-icon>
+                                        <span>Painel</span>
+                                    </li>
+
+                                    <a href="/account">
+                                        <li className="option">
+                                            <ion-icon name="person-outline" size="small"></ion-icon>
+                                            <span>Detalhes da conta</span>
+                                        </li>
+                                    </a>
+
+                                    <li className="option">
+                                        <ion-icon name="exit-outline" size="small"></ion-icon>
+                                        <span>Logout</span>
+                                    </li>
                                 </ul>
                             </div>
                         )
