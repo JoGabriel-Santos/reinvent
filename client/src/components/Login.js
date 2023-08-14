@@ -1,9 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-
-import OAuth from "./OAuth";
+import * as API from "../api/index";
 
 function Login(props) {
+    const [isLoggingIn, setIsLoggingIn] = useState(true);
+
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleAuthentication = async () => {
+        const userInfo = { name, email, password };
+
+        if (isLoggingIn) {
+            const { data } = await API.signin(userInfo);
+            localStorage.setItem("UserInfo", JSON.stringify(data.result));
+
+        } else {
+            const { data } = await API.signup(userInfo);
+            localStorage.setItem("UserInfo", JSON.stringify(data.result));
+        }
+    }
+
+    const handleNameChange = (text) => {
+        setName(text);
+    };
+
+    const handleEmailChange = (text) => {
+        setEmail(text);
+    };
+
+    const handlePasswordChange = (text) => {
+        setPassword(text);
+    };
+
+    const handleToggleIsLoggingIn = () => {
+        setName("");
+        setEmail("");
+        setPassword("");
+
+        setIsLoggingIn(prevIsLoggingIn => !prevIsLoggingIn);
+    }
 
     return (
         <AnimatePresence>
@@ -17,43 +54,69 @@ function Login(props) {
 
                 <div className="login-container--content">
                     <div className="content--header">
+                        <div className="auth-buttons">
+                            <div className={`auth-button ${isLoggingIn && "selected-button"}`}
+                                 onClick={!isLoggingIn ? handleToggleIsLoggingIn : null}>
+
+                                <ion-icon name="lock-open-outline"></ion-icon>
+                                <span>ENTRAR</span>
+                            </div>
+
+                            <div className={`auth-button ${!isLoggingIn && "selected-button"}`}
+                                 onClick={isLoggingIn ? handleToggleIsLoggingIn : null}>
+
+                                <ion-icon name="person-outline"></ion-icon>
+                                <span>CADASTRE-SE</span>
+                            </div>
+                        </div>
+
                         <img
                             className="header-close"
                             onClick={props.closeLogin}
                             src={require("../util/icons/close.png")}
                             alt=""
                         />
-
-                        <h2 className="header-title">Log in or sign up</h2>
                     </div>
 
                     <div className="content--user">
-                        <h1 className="user-title">Welcome to Airbnb</h1>
+                        <h1 className="user-title">Bem-vindo ao Reinvent 360</h1>
 
-                        <div className="content--social-networks">
-                            <OAuth/>
+                        <div className="content--authentication">
+                            {
+                                !isLoggingIn &&
+                                <div className="authentication-input">
+                                    <input
+                                        className="header-options--input"
+                                        placeholder="Nome"
+                                        type="text"
+                                        value={name}
+                                        onChange={(event) => setName(event.target.value)}
+                                    />
+                                </div>
+                            }
 
-                            <hr/>
-
-                            <div className="social-network">
-                                <p className="social-network--link">
-                                    <img src={require("../util/icons/facebook.png")} alt=""/>
-                                    Continue with Facebook
-                                </p>
+                            <div className="authentication-input">
+                                <input
+                                    className="header-options--input"
+                                    placeholder="E-mail"
+                                    type="text"
+                                    value={email}
+                                    onChange={(event) => setEmail(event.target.value)}
+                                />
                             </div>
 
-                            <div className="social-network">
-                                <p className="social-network--link">
-                                    <img src={require("../util/icons/apple.png")} alt=""/>
-                                    Continue with Apple
-                                </p>
+                            <div className="authentication-input">
+                                <input
+                                    className="header-options--input"
+                                    placeholder="Senha"
+                                    type="text"
+                                    value={password}
+                                    onChange={(event) => setPassword(event.target.value)}
+                                />
                             </div>
 
-                            <div className="social-network">
-                                <p className="social-network--link">
-                                    <img src={require("../util/icons/email.png")} alt=""/>
-                                    Continue with email
-                                </p>
+                            <div className="authentication-button" onClick={() => handleAuthentication()}>
+                                ENTRAR
                             </div>
                         </div>
                     </div>
