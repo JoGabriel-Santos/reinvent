@@ -167,10 +167,10 @@ ion-icon {
     padding: 1.5rem;
 }
 
-.options-list li:nth-child(2) {
-    border-bottom: rgba(51, 51, 51, 0.28) 1px solid;
-    margin-bottom: .3rem;
-    padding-bottom: 1.9rem;
+.border-top {
+    border-top: rgba(51, 51, 51, 0.28) 1px solid;
+    margin-top: .3rem;
+    padding-top: 1.9rem;
 }
 
 .option {
@@ -621,23 +621,138 @@ ion-icon {
     background-color: #d33300;
 }
 
+/* ----------- ACCOUNT ----------- */
+
 .section-account {
     margin: 0 auto;
-    max-width: 120rem;
+    max-width: 80rem;
     padding: 7.2rem 3.2rem;
 }
 
 .section-account--container {
     align-items: flex-start;
+    border-radius: 12px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
-    text-align: center;
+    padding: 3rem;
 }
 
 .account-title {
-
+    font-size: 2.6rem;
+    font-weight: 600;
+    margin-bottom: 15px;
 }
 
 .account-descr {
+    color: rgba(51, 51, 51, 0.8);
+    font-size: 1.8rem;
+    font-weight: 500;
+}
 
+.cta-form-picture {
+    align-items: center;
+    display: flex;
+    gap: 20px;
+    padding: 3.2rem 0;
+}
+
+.cta-form-picture img {
+    border-radius: 50%;
+    display: block;
+    height: 80px;
+    margin: 0 auto;
+    object-fit: cover;
+    width: 80px;
+}
+
+.file-input {
+    align-items: center;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+    color: #333;
+    cursor: pointer;
+    display: flex !important;
+    font-size: 1.6rem;
+    font-weight: 500;
+    height: 40px;
+    justify-content: center;
+    padding: 1.2rem;
+    transition: all ease 0.3s;
+}
+
+.file-input:hover {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.6);
+}
+
+.file-input span {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+}
+
+.file-input input {
+    display: none;
+}
+
+.image-upload {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.image-upload label {
+    font-size: 1.4rem;
+}
+
+.cta-form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.cta-form-name {
+    display: flex;
+    gap: 2rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cta-form-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.cta-form-input label {
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.cta-form-input input {
+    align-items: center;
+    border: rgba(51, 51, 51, 0.28) 1px solid;
+    border-radius: 10px;
+    color: #333333;
+    display: flex;
+    flex: 1;
+    font-size: 1.8rem;
+    font-weight: 400;
+    outline: none;
+    padding: 1rem;
+    transition: .4s ease;
+    width: 100%;
+}
+
+.cta-form-input:hover input {
+    box-shadow: rgba(16, 16, 16, 0.4) 0 0 4px 0;
+}
+
+.account--save-button {
+    height: 50px;
+    font-size: 1.8rem;
+    font-weight: 400;
+    margin-top: 4rem;
 }

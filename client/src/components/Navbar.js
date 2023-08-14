@@ -86,7 +86,7 @@ const Navbar = () => {
                                         </li>
                                     </a>
 
-                                    <li className="option">
+                                    <li className="option border-top">
                                         <ion-icon name="exit-outline" size="small"></ion-icon>
                                         <span>Logout</span>
                                     </li>
