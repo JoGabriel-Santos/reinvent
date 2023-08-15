@@ -9,9 +9,9 @@ const Account = () => {
             displayName: "",
             newEmail: "",
             curEmail: "",
+            profilePicture: "",
             newPassword: "",
-            curPassword: "",
-            profilePicture: ""
+            curPassword: ""
         }
     );
 

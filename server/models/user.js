@@ -13,13 +13,13 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
     profilePicture: {
         type: String,
         required: false,
+    },
+    password: {
+        type: String,
+        required: true,
     },
 });
 
