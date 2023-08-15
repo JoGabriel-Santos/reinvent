@@ -15,3 +15,6 @@ const API = axios.create({ baseURL: 'http://localhost:5000' });
 export const signin = (userInfo) => API.post("/user/signin", userInfo);
 export const signup = (userInfo) => API.post("/user/signup", userInfo);
 export const changeUserInfo = (userInfo) => API.patch("/user/changeUserInfo", userInfo);
+
+export const getProducts = () => API.get("/product/getProducts");
+export const publishProduct = (userLogged, productInfo) => API.post("/product/publishProduct", { userLogged, productInfo });

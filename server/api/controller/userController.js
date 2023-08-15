@@ -6,7 +6,7 @@ import User from "../../models/user.js";
 const secret = "Y8bD7rK2sF9aZ1";
 
 export const changeUserInfo = async (request, response) => {
-    const { userName, displayName, newEmail, curEmail, profilePicture, newPassword, curPassword,  } = request.body;
+    const { userName, displayName, newEmail, curEmail, profilePicture, newPassword, curPassword } = request.body;
 
     if (!userName || !displayName || !curEmail || !curPassword) {
         return response.status(400).json({ message: "Missing required fields" });

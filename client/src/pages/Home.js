@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "../components/Card";
+import * as API from "../api";
 
 const Home = () => {
 
@@ -19,6 +20,28 @@ const Home = () => {
         require("../util/images/design_6.jpeg"),
         require("../util/images/design_7.jpeg"),
     ]);
+
+    const [products, setProducts] = useState([]);
+
+    const updateProductList = async () => {
+        const productsData = await API.getProducts();
+        setProducts(productsData);
+    };
+
+    const fetchProducts = async () => {
+        try {
+            await updateProductList();
+
+        } catch (error) {
+
+            console.log(error.message);
+        }
+    }
+
+    useEffect(() => {
+
+        fetchProducts();
+    }, []);
 
     return (
         <React.Fragment>

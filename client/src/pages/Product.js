@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as API from "../api";
 
 const Product = () => {
 
@@ -9,7 +10,7 @@ const Product = () => {
             productPicture: "",
             fileURL: ""
         }
-    )
+    );
 
     const handleProductPictureChange = (event) => {
         const file = event.target.files[0];
@@ -20,12 +21,15 @@ const Product = () => {
         reader.onloadend = () => {
             setProductInfo({ ...productInfo, productPicture: reader.result.toString() });
         }
-    }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-    }
+        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+
+        await API.publishProduct(userLogged, productInfo);
+    };
 
     return (
         <section className="section-forms">
@@ -34,7 +38,11 @@ const Product = () => {
                 <h6 className="form-descr">Preencha as informações abaixo para publicar um novo produto:</h6>
 
                 <div className="cta-form-picture">
-                    <img className="product-image" src={require("../util/images/design_2.jpeg")} alt=""/>
+                    <img
+                        src={productInfo.productPicture !== "" ? productInfo.productPicture : require("../util/images/no-photo-available.png")}
+                        className="product-image"
+                        alt="Product picture"
+                    />
 
                     <div className="image-upload">
                         <label className="file-input">
@@ -42,7 +50,12 @@ const Product = () => {
                                 <ion-icon name="images-outline" size="small"></ion-icon>
                                 Definir imagem do produto
                             </span>
-                            <input className="input" type="file" id="file-input" onChange={() => console.log("")}/>
+                            <input
+                                id="file-input"
+                                type="file"
+                                className="input"
+                                onChange={event => handleProductPictureChange(event)}
+                            />
                         </label>
 
                         <label htmlFor="picture">Envie uma imagem JPG ou PNG</label>
@@ -83,7 +96,7 @@ const Product = () => {
                     </div>
                 </form>
 
-                <div className="info--button account--save-button">
+                <div className="info--button account--save-button" onClick={handleSubmit}>
                     Publicar
                 </div>
             </div>
