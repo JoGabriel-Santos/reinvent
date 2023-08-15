@@ -5,9 +5,9 @@ import * as API from "../api/index";
 const Login = (props) => {
     const [isLoggingIn, setIsLoggingIn] = useState(true);
 
-    const [userName, setUserName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const handleAuthentication = async () => {
         const userInfo = { userName, email, password };
