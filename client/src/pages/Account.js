@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import * as API from "../api/index";
 
 const Account = () => {
 
@@ -6,13 +7,15 @@ const Account = () => {
         {
             userName: "",
             displayName: "",
-            email: "",
-            password: "",
+            newEmail: "",
+            curEmail: "",
+            newPassword: "",
+            curPassword: "",
             profilePicture: ""
         }
-    )
+    );
 
-    const handleProfilePicChange = (event) => {
+    const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
         const reader = new FileReader();
 
@@ -21,12 +24,30 @@ const Account = () => {
         reader.onloadend = () => {
             setUserInfo({ ...userInfo, profilePicture: reader.result.toString() });
         }
-    }
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-    }
+        const { data } = await API.changeUserInfo(userInfo);
+
+        localStorage.setItem("UserInfo", JSON.stringify(data.result));
+    };
+
+    useEffect(() => {
+        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+
+        setUserInfo(
+            {
+                ...userInfo,
+                userName: userLogged.userName,
+                displayName: userLogged.displayName,
+                newEmail: userLogged.email,
+                curEmail: userLogged.email,
+                profilePicture: userLogged.profilePicture
+            }
+        );
+    }, []);
 
     return (
         <section className="section-forms">
@@ -35,7 +56,10 @@ const Account = () => {
                 <h6 className="form-descr">Atualize os detalhes do seu perfil abaixo:</h6>
 
                 <div className="cta-form-picture">
-                    <img src={require("../util/images/profile.jpg")} alt=""/>
+                    <img
+                        src={userInfo.profilePicture !== "" ? userInfo.profilePicture : require("../util/icons/profile.png")}
+                        alt="Profile picture"
+                    />
 
                     <div className="image-upload">
                         <label className="file-input">
@@ -43,7 +67,12 @@ const Account = () => {
                                 <ion-icon name="images-outline" size="small"></ion-icon>
                                 Alterar foto do perfil
                             </span>
-                            <input className="input" type="file" id="file-input" onChange={() => console.log("")}/>
+                            <input
+                                id="file-input"
+                                type="file"
+                                className="input"
+                                onChange={event => handleProfilePictureChange(event)}
+                            />
                         </label>
 
                         <label htmlFor="picture">Envie uma imagem JPG ou PNG</label>
@@ -78,23 +107,33 @@ const Account = () => {
                         <input
                             id="email"
                             type="email"
-                            value={userInfo.email}
-                            onChange={(event) => setUserInfo({ ...userInfo, email: event.target.value })}
+                            value={userInfo.newEmail}
+                            onChange={(event) => setUserInfo({ ...userInfo, newEmail: event.target.value })}
                         />
                     </div>
 
                     <div className="cta-form-input">
                         <label htmlFor="password">Nova senha</label>
                         <input
+                            id="new-password"
+                            type="password"
+                            value={userInfo.newPassword}
+                            onChange={(event) => setUserInfo({ ...userInfo, newPassword: event.target.value })}
+                        />
+                    </div>
+
+                    <div className="cta-form-input">
+                        <label htmlFor="password">Confirme sua senha atual</label>
+                        <input
                             id="password"
                             type="password"
-                            value={userInfo.password}
-                            onChange={(event) => setUserInfo({ ...userInfo, password: event.target.value })}
+                            value={userInfo.curPassword}
+                            onChange={(event) => setUserInfo({ ...userInfo, curPassword: event.target.value })}
                         />
                     </div>
                 </form>
 
-                <div className="info--button account--save-button">
+                <div className="info--button account--save-button" onClick={handleSubmit}>
                     Salvar alterações
                 </div>
             </div>

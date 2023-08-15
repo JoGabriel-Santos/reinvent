@@ -5,12 +5,12 @@ import * as API from "../api/index";
 const Login = (props) => {
     const [isLoggingIn, setIsLoggingIn] = useState(true);
 
-    const [name, setName] = useState('');
+    const [userName, setUserName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleAuthentication = async () => {
-        const userInfo = { name, email, password };
+        const userInfo = { userName, email, password };
 
         if (isLoggingIn) {
             const { data } = await API.signin(userInfo);
@@ -23,7 +23,7 @@ const Login = (props) => {
     }
 
     const handleNameChange = (text) => {
-        setName(text);
+        setUserName(text);
     };
 
     const handleEmailChange = (text) => {
@@ -35,7 +35,7 @@ const Login = (props) => {
     };
 
     const handleToggleIsLoggingIn = () => {
-        setName("");
+        setUserName("");
         setEmail("");
         setPassword("");
 
@@ -87,10 +87,10 @@ const Login = (props) => {
                                 <div className="authentication-input">
                                     <input
                                         className="header-options--input"
-                                        placeholder="Nome"
+                                        placeholder="Nome de usuário"
                                         type="text"
-                                        value={name}
-                                        onChange={(event) => setName(event.target.value)}
+                                        value={userName}
+                                        onChange={(event) => setUserName(event.target.value)}
                                     />
                                 </div>
                             }

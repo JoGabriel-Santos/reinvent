@@ -5,6 +5,51 @@ import User from "../../models/user.js";
 
 const secret = "Y8bD7rK2sF9aZ1";
 
+export const changeUserInfo = async (request, response) => {
+    const { userName, displayName, newEmail, curEmail, newPassword, curPassword, profilePicture } = request.body;
+
+    if (!userName || !displayName || !curEmail || !curPassword) {
+        return response.status(400).json({ message: "Missing required fields" });
+    }
+
+    try {
+        const user = await User.findOne({ email: curEmail });
+        if (!user) {
+            return response.status(404).json({ message: "User not found" });
+        }
+
+        const isPasswordCorrect = await bcrypt.compare(curPassword, user.password);
+        if (!isPasswordCorrect) {
+            return response.status(401).json({ message: "Incorrect password" });
+        }
+
+        user.userName = userName;
+        user.displayName = displayName;
+
+        if (newEmail) {
+            user.email = newEmail;
+        }
+
+        if (profilePicture) {
+            user.profilePicture = profilePicture;
+        }
+
+        if (newPassword) {
+            user.password = await bcrypt.hash(newPassword, 12);
+        }
+
+        await user.save();
+
+        const token = jwt.sign(
+            { email: user.email, id: user._id }, secret, { expiresIn: "1h" });
+
+        response.status(200).json({ result: user, token });
+
+    } catch (error) {
+        response.status(500).json({ message: "An error occurred while updating user information" });
+    }
+};
+
 export const signin = async (request, response) => {
     const { email, password } = request.body;
 
@@ -30,7 +75,7 @@ export const signin = async (request, response) => {
 };
 
 export const signup = async (request, response) => {
-    const { name, email, password } = request.body;
+    const { userName, email, password } = request.body;
 
     try {
         const existingUser = await User.findOne({ email });
@@ -40,7 +85,7 @@ export const signup = async (request, response) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        const newUser = await User.create({ name, email, password: hashedPassword, });
+        const newUser = await User.create({ userName, email, password: hashedPassword, });
 
         const token = jwt.sign(
             { email: newUser.email, id: newUser._id }, secret, { expiresIn: "1h" });
