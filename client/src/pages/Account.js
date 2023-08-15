@@ -29,10 +29,10 @@ const Account = () => {
     }
 
     return (
-        <section className="section-account">
-            <div className="section-account--container">
-                <h2 className="account-title">Conta</h2>
-                <h6 className="account-descr">Atualize os detalhes do seu perfil abaixo:</h6>
+        <section className="section-forms">
+            <div className="section-forms--container">
+                <h2 className="form-title">Conta</h2>
+                <h6 className="form-descr">Atualize os detalhes do seu perfil abaixo:</h6>
 
                 <div className="cta-form-picture">
                     <img src={require("../util/images/profile.jpg")} alt=""/>
