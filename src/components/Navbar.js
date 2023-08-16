@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
 import Login from "./Login";
 
 const Navbar = () => {
     const [showMenu, setShowMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [bgOpacity, setBgOpacity] = useState(0);
-
-    const navigate = useNavigate();
 
     function handleMenuClick() {
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
@@ -34,7 +31,7 @@ const Navbar = () => {
     return (
         <React.Fragment>
             <header className="header">
-                <a href="">
+                <a href="/">
                     <img className="logo" src={require("../util/images/logo.png")} alt=""/>
                 </a>
 
@@ -53,13 +50,13 @@ const Navbar = () => {
                         </div>
 
                         <div className="cart-quantity">
-                            <span>2</span>
+                            <span>0</span>
                         </div>
 
                         <div className="cart-info">
                             <h6 className="cart-name">Meu carrinho</h6>
                             <div className="cart-payment">
-                                <span>R$ 64.00</span>
+                                <span>R$ 0.00</span>
                                 <ion-icon name="caret-down-outline" size="small"></ion-icon>
                             </div>
                         </div>
@@ -74,12 +71,14 @@ const Navbar = () => {
                         showMenu && (
                             <div className="header-user--options">
                                 <ul className="options-list">
-                                    <li className="option">
-                                        <ion-icon name="apps-outline" size="small"></ion-icon>
-                                        <span>Painel</span>
-                                    </li>
+                                    <a href="/product">
+                                        <li className="option">
+                                            <ion-icon name="apps-outline" size="small"></ion-icon>
+                                            <span>Painel</span>
+                                        </li>
+                                    </a>
 
-                                    <a href="/src/pages/Account">
+                                    <a href="/account">
                                         <li className="option">
                                             <ion-icon name="person-outline" size="small"></ion-icon>
                                             <span>Detalhes da conta</span>
@@ -99,7 +98,7 @@ const Navbar = () => {
 
             <section className="section-categories">
                 <ul className="section-categories--list">
-                    <li className="categories-list">Home</li>
+                    <li className="categories-list"><a href="/">Home</a></li>
                     <li className="categories-list">Coleções</li>
                     <li className="categories-list">PSD</li>
                     <li className="categories-list">PNG</li>

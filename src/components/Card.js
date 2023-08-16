@@ -1,18 +1,27 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
-const Card = (props) => {
+const Card = ({ productData }) => {
+    const history = useHistory();
+
+    const redirectToDetails = () => {
+        history.push({
+            pathname: "/details",
+            state: { productData }
+        });
+    };
 
     return (
-        <div className="card-design">
-            <img src={props.image} alt=""/>
+        <div className="card-design" onClick={redirectToDetails}>
+            <img src={productData.productPicture} alt=""/>
 
             <div className="card-design--info">
                 <div className="info-uploader">
-                    <img className="uploader-image" src={require("../util/icons/logo-user.jpeg")} alt=""/>
-                    <h2 className="uploader-name">Logo</h2>
+                    <img className="uploader-image" src={productData.creator.profilePicture} alt=""/>
+                    <h2 className="uploader-name">{productData.creator.displayName}</h2>
                 </div>
 
-                <h4 className="info-title">Design title</h4>
+                <h4 className="info-title">{productData.productName}</h4>
             </div>
         </div>
     )

@@ -21,27 +21,30 @@ const Home = () => {
         require("../util/images/design_7.jpeg"),
     ]);
 
+    const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState([]);
 
     const updateProductList = async () => {
         const productsData = await API.getProducts();
-        setProducts(productsData);
+        setProducts(productsData.data);
     };
 
-    const fetchProducts = async () => {
-        try {
-            await updateProductList();
-
-        } catch (error) {
-
-            console.log(error.message);
-        }
-    }
-
     useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                await updateProductList();
+                setIsLoading(false);
+
+            } catch (error) {
+                console.log(error.message);
+                setIsLoading(false);
+            }
+        };
 
         fetchProducts();
     }, []);
+
+    console.log(products)
 
     return (
         <React.Fragment>
@@ -98,10 +101,13 @@ const Home = () => {
             <section className="section-designs">
                 <div className="section-designs--grid">
                     {
-                        designs.map((image, index) => (
-                            <Card image={image} key={index}/>
-                        ))
-                    }
+                        isLoading ? (
+                            <p className="loading-products">Carregando produtos...</p>
+                        ) : (
+                            products.map((product, index) => (
+                                <Card productData={product} key={index}/>
+                            ))
+                        )}
                 </div>
             </section>
         </React.Fragment>

@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Details from "./pages/Details";
@@ -12,12 +12,12 @@ function App() {
         <React.Fragment>
             <BrowserRouter>
                 <Navbar/>
-                <Routes>
-                    <Route path="/" element={<Home/>}/>
-                    <Route path="/details" element={<Details/>}/>
-                    <Route path="/account" element={<Account/>}/>
-                    <Route path="/product" element={<Product/>}/>
-                </Routes>
+                <Switch>
+                    <Route path="/" exact component={Home}/>
+                    <Route path="/details" exact component={Details}/>
+                    <Route path="/account" exact component={Account}/>
+                    <Route path="/product" exact component={Product}/>
+                </Switch>
             </BrowserRouter>
         </React.Fragment>
     )

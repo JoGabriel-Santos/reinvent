@@ -1,35 +1,36 @@
-import React, { useState } from "react";
-import Card from "../components/Card";
+import React from "react";
+import { useLocation } from "react-router-dom";
 
 const Details = () => {
+    const location = useLocation();
+    const productData = location.state.productData;
 
-    const [designs, setDesigns] = useState([
-        require("../util/images/design_1.jpeg"),
-        require("../util/images/design_2.jpeg"),
-        require("../util/images/design_3.jpeg"),
-        require("../util/images/design_4.jpeg"),
-        require("../util/images/design_5.jpeg"),
-        require("../util/images/design_6.jpeg"),
-        require("../util/images/design_7.jpeg"),
-        require("../util/images/design_1.jpeg"),
-        require("../util/images/design_2.jpeg"),
-        require("../util/images/design_3.jpeg"),
-        require("../util/images/design_4.jpeg"),
-        require("../util/images/design_5.jpeg"),
-        require("../util/images/design_6.jpeg"),
-        require("../util/images/design_7.jpeg"),
-    ]);
+    console.log(productData)
 
     return (
         <React.Fragment>
             <section className="section-details">
                 <div className="details">
-                    <div className="details--image">
-                        <img src={require("../util/images/design_1.jpeg")} alt=""/>
+                    <div className="details--product">
+                        <div className="product--image">
+                            <img src={productData.productPicture} alt=""/>
+                        </div>
+
+                        <div className="product--likes-downloads">
+                            <div className="likes">
+                                <ion-icon name="heart-outline" size={"large"}></ion-icon>
+                                <p className="likes-text">Like (0)</p>
+                            </div>
+
+                            <div className="downloads">
+                                <ion-icon name="cloud-download-outline" size={"large"}></ion-icon>
+                                <p className="likes-text">0 downloads</p>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="details--info">
-                        <h2 className="info-header">Dia Dos Pais Social Media PSD Editável</h2>
+                        <h2 className="info-header">{productData.productName}</h2>
 
                         <div className="benefit exclusive">
                             <img src={require("../util/icons/checkmark-exclusive.png")} alt=""/>
@@ -58,18 +59,12 @@ const Details = () => {
                             </li>
                         </ul>
 
-                        <div className="info--button">
-                            DOWNLOAD (200 MB)
-                        </div>
+                        <a href={productData.fileURL} target="_blank" rel="noopener noreferrer">
+                            <div className="info--button">
+                                DOWNLOAD (200 MB)
+                            </div>
+                        </a>
                     </div>
-                </div>
-
-                <div className="section-designs--grid">
-                    {
-                        designs.map((image, index) => (
-                            <Card image={image} key={index}/>
-                        ))
-                    }
                 </div>
             </section>
         </React.Fragment>

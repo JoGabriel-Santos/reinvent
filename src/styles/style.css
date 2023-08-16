@@ -431,6 +431,12 @@ ion-icon {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
 }
 
+.loading-products {
+    color: #333333;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
 .card-design {
     border-radius: 8px;
     cursor: pointer;
@@ -543,15 +549,52 @@ ion-icon {
     gap: 5rem;
 }
 
-.details--image {
+.details--product {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product--image {
     display: inline-block;
     overflow: hidden;
 }
 
-.details--image img {
+.product--image img {
     border-radius: 10px;
     height: 800px;
     width: auto;
+}
+
+.product--likes-downloads {
+    border-bottom: rgba(51, 51, 51, 0.55) 1px solid;
+    display: flex;
+    gap: 40px;
+    padding-bottom: 10px;
+}
+
+.likes, .downloads {
+    align-items: center;
+    border: rgba(51, 51, 51, 0) 1px solid;
+    border-radius: 12px;
+    display: flex;
+    gap: 5px;
+    padding: .8rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.likes {
+    cursor: pointer;
+}
+
+.likes:hover {
+    border: rgba(51, 51, 51, 0.55) 1px solid;
+}
+
+.likes-text, .downloads-text {
+    color: #333333;
+    font-size: 1.8rem;
+    font-weight: 500;
 }
 
 .details--info {
@@ -559,6 +602,7 @@ ion-icon {
     border-radius: 12px;
     height: fit-content;
     padding: 4rem;
+    width: 550px;
 }
 
 .info-header {
