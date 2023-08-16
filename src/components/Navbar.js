@@ -79,7 +79,7 @@ const Navbar = () => {
                                         <span>Painel</span>
                                     </li>
 
-                                    <a href="/account">
+                                    <a href="/src/pages/Account">
                                         <li className="option">
                                             <ion-icon name="person-outline" size="small"></ion-icon>
                                             <span>Detalhes da conta</span>

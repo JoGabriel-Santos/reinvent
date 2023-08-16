@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import * as API from "../api/index";
+import * as API from "../api";
 
 const Account = () => {
 
