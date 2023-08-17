@@ -891,6 +891,19 @@ ion-icon {
     box-shadow: rgba(16, 16, 16, 0.4) 0 0 4px 0;
 }
 
+.cta-form-error input {
+    border: rgba(255, 0, 0, 0.75) 1px solid !important;
+}
+
+.label {
+    display: flex;
+    gap: 8px;
+}
+
+.label label:nth-of-type(2) {
+    color: red;
+}
+
 .password-input-container {
     position: relative;
 }
