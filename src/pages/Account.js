@@ -6,7 +6,6 @@ const Account = () => {
     const [userInfo, setUserInfo] = useState(
         {
             userName: "",
-            displayName: "",
             newEmail: "",
             curEmail: "",
             profilePicture: "",
@@ -41,10 +40,9 @@ const Account = () => {
             {
                 ...userInfo,
                 userName: userLogged.userName,
-                displayName: userLogged.displayName,
                 newEmail: userLogged.email,
                 curEmail: userLogged.email,
-                profilePicture: userLogged.profilePicture
+                profilePicture: userLogged.profilePicture || ""
             }
         );
     }, []);
@@ -58,7 +56,7 @@ const Account = () => {
                 <div className="cta-form-picture">
                     <img
                         src={userInfo.profilePicture !== "" ? userInfo.profilePicture : require("../util/icons/profile.png")}
-                        alt="Profile picture"
+                        alt=""
                     />
 
                     <div className="image-upload">
@@ -82,7 +80,7 @@ const Account = () => {
                 <form className="cta-form" action="">
                     <div className="cta-form-name">
                         <div className="cta-form-input">
-                            <label htmlFor="username">Nome completo</label>
+                            <label htmlFor="username">Nome de usuário</label>
                             <input
                                 id="username"
                                 type="text"
@@ -92,24 +90,14 @@ const Account = () => {
                         </div>
 
                         <div className="cta-form-input">
-                            <label htmlFor="display-name">Nome de exibição</label>
+                            <label htmlFor="email">Endereço de e-mail</label>
                             <input
-                                id="display-name"
-                                type="text"
-                                value={userInfo.displayName}
-                                onChange={(event) => setUserInfo({ ...userInfo, displayName: event.target.value })}
+                                id="email"
+                                type="email"
+                                value={userInfo.newEmail}
+                                onChange={(event) => setUserInfo({ ...userInfo, newEmail: event.target.value })}
                             />
                         </div>
-                    </div>
-
-                    <div className="cta-form-input">
-                        <label htmlFor="email">Endereço de e-mail</label>
-                        <input
-                            id="email"
-                            type="email"
-                            value={userInfo.newEmail}
-                            onChange={(event) => setUserInfo({ ...userInfo, newEmail: event.target.value })}
-                        />
                     </div>
 
                     <div className="cta-form-input">

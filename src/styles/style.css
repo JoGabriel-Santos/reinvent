@@ -143,7 +143,12 @@ ion-icon {
 }
 
 .header-user--profile {
-    height: 3rem;
+    border-radius: 50%;
+    display: block;
+    height: 30px;
+    margin: 0 auto;
+    object-fit: cover;
+    width: 30px;
 }
 
 .header-user--options {
@@ -217,7 +222,7 @@ ion-icon {
 
 .login-container--content {
     background-color: white;
-    border-radius: 15px;
+    border-radius: 12px;
 }
 
 .content--header {
@@ -277,19 +282,20 @@ ion-icon {
 .user-title {
     font-size: 2.2rem;
     font-weight: 500;
-    padding-bottom: 2.4rem;
+    padding-bottom: 4.4rem;
 }
 
 .content--authentication {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 2.5rem;
+    width: 50rem;
 }
 
 .authentication-input {
     border: rgba(51, 51, 51, 0.5) 1px solid;
     border-radius: 10px;
-    padding: 1.6rem 2.3rem;
+    padding: 1.6rem 1.5rem;
     transition: .3s ease;
 }
 
@@ -309,6 +315,7 @@ ion-icon {
     height: 54px;
     justify-content: center;
     transition: all 0.3s;
+    user-select: none;
     width: 100%;
 }
 
@@ -482,25 +489,61 @@ ion-icon {
     align-items: center;
     display: flex;
     gap: 1rem;
-    margin-bottom: 1rem;
-    width: 4rem;
+    margin-bottom: 5px;
 }
 
 .uploader-image {
     border: white 1px solid;
-    border-radius: 100px;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto;
+    object-fit: cover;
+    max-height: 4rem;
+    max-width: 4rem;
 }
 
 .uploader-name {
     color: #ffffff;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.product--name-likes {
+    align-items: center;
+    display: flex;
+    height: fit-content;
+    justify-content: space-between;
 }
 
 .info-title {
     color: #ffffff;
-    font-size: 1.8rem;
+    font-size: 1.6rem;
     font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+.info-likes {
+    align-items: center;
+    display: flex;
+    gap: 5px;
+}
+
+.info-likes img {
+    width: 22px;
+}
+
+.info-likes span {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 500;
+    padding-top: 2px;
 }
 
 /* ----------- FILTERS ----------- */
@@ -567,19 +610,19 @@ ion-icon {
 }
 
 .product--likes-downloads {
-    border-bottom: rgba(51, 51, 51, 0.55) 1px solid;
+    border-bottom: rgba(51, 51, 51, 0.38) 1px solid;
     display: flex;
-    gap: 40px;
-    padding-bottom: 10px;
+    gap: .8rem;
+    padding: 1rem 0;
 }
 
 .likes, .downloads {
     align-items: center;
-    border: rgba(51, 51, 51, 0) 1px solid;
-    border-radius: 12px;
+    border: rgba(51, 51, 51, 0) 2px solid;
+    border-radius: 8px;
     display: flex;
     gap: 5px;
-    padding: .8rem 1rem;
+    padding: .4rem .8rem;
     transition: all 0.3s ease;
 }
 
@@ -588,13 +631,13 @@ ion-icon {
 }
 
 .likes:hover {
-    border: rgba(51, 51, 51, 0.55) 1px solid;
+    border: rgba(51, 51, 51, 0.58) 2px solid;
 }
 
 .likes-text, .downloads-text {
     color: #333333;
-    font-size: 1.8rem;
-    font-weight: 500;
+    font-size: 1.6rem;
+    font-weight: 600;
 }
 
 .details--info {
@@ -608,7 +651,7 @@ ion-icon {
 .info-header {
     font-size: 2.2rem;
     font-weight: 700;
-    margin-bottom: 32px;
+    margin-bottom: 3.2rem;
 }
 
 .info-benefits {
@@ -663,6 +706,52 @@ ion-icon {
 
 .info--button:hover {
     background-color: #d33300;
+}
+
+.designer-info {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 3rem;
+    user-select: none;
+}
+
+.designer-info--details {
+    align-items: center;
+    display: flex;
+    gap: 10px;
+}
+
+.designer-info--details img {
+    border-radius: 50%;
+    display: block;
+    height: 52px;
+    margin: 0 auto;
+    object-fit: cover;
+    width: 52px;
+}
+
+.details-name h2 {
+    color: #333333;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.details-name h6 {
+    color: rgba(51, 51, 51, 0.9);
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.designer--follow-button {
+    border: rgba(51, 51, 51, 0.52) 1px solid;
+    border-radius: 5px;
+    color: rgba(51, 51, 51, 0.92);
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding: 5px 8px;
 }
 
 /* ----------- ACCOUNT ----------- */
@@ -763,6 +852,13 @@ ion-icon {
     width: 100%;
 }
 
+.cta-form-name--grid {
+    display: grid;
+    grid-gap: 2rem;
+    grid-template-columns: 80fr 20fr;
+    width: 100%;
+}
+
 .cta-form-input {
     display: flex;
     flex-direction: column;
@@ -771,27 +867,96 @@ ion-icon {
 }
 
 .cta-form-input label {
-    font-size: 1.4rem;
-    font-weight: 700;
+    color: rgb(51, 51, 51);
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
 .cta-form-input input {
     align-items: center;
-    border: rgba(51, 51, 51, 0.28) 1px solid;
-    border-radius: 10px;
+    border: rgba(51, 51, 51, 0.4) 1px solid;
+    border-radius: 8px;
     color: #333333;
     display: flex;
     flex: 1;
     font-size: 1.8rem;
     font-weight: 400;
     outline: none;
-    padding: 1rem;
+    padding: 1.3rem 1rem;
     transition: .4s ease;
     width: 100%;
 }
 
 .cta-form-input:hover input {
     box-shadow: rgba(16, 16, 16, 0.4) 0 0 4px 0;
+}
+
+.password-input-container {
+    position: relative;
+}
+
+.input-password {
+    padding-right: 40px;
+}
+
+.password-toggle {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: calc(50% + 2px);
+    transform: translateY(-50%);
+}
+
+.password-options {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+}
+
+.password-options h5 {
+    color: #F14405;
+    cursor: pointer;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+
+.remember-me {
+    align-items: center;
+    color: #333333;
+    cursor: pointer;
+    display: flex;
+    font-size: 1.4rem;
+    font-weight: 500;
+    gap: 5px;
+    width: fit-content;
+}
+
+.tags-input-empty {
+    display: none !important;
+}
+
+.tags-input-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 5px;
+}
+
+.tag-box {
+    border: rgba(241, 68, 5, 0.58) 2px solid;
+    border-radius: 10px;
+    color: rgba(241, 68, 5, 0.92);
+    cursor: pointer;
+    font-size: 1.6rem;
+    font-weight: 600;
+    padding: 3px 6px;
+    transition: .3s ease;
+    user-select: none;
+}
+
+.tag-box:hover {
+    border: rgba(51, 51, 51, 0.58) 2px solid;
+    color: rgba(51, 51, 51, 0.92);
 }
 
 .account--save-button {

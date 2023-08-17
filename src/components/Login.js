@@ -4,43 +4,38 @@ import * as API from "../api";
 
 const Login = (props) => {
     const [isLoggingIn, setIsLoggingIn] = useState(true);
+    const [passwordVisible, setPasswordVisible] = useState(false);
 
-    const [userName, setUserName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [loginInfo, setLoginInfo] = useState(
+        {
+            userName: "",
+            email: "",
+            password: ""
+        }
+    );
 
     const handleAuthentication = async () => {
-        const userInfo = { userName, email, password };
-
         if (isLoggingIn) {
-            const { data } = await API.signin(userInfo);
+            const { data } = await API.signin(loginInfo);
             localStorage.setItem("UserInfo", JSON.stringify(data.result));
 
         } else {
-            const { data } = await API.signup(userInfo);
+            const { data } = await API.signup(loginInfo);
             localStorage.setItem("UserInfo", JSON.stringify(data.result));
         }
+
+        props.closeLogin();
     }
-
-    const handleNameChange = (text) => {
-        setUserName(text);
-    };
-
-    const handleEmailChange = (text) => {
-        setEmail(text);
-    };
-
-    const handlePasswordChange = (text) => {
-        setPassword(text);
-    };
 
     const handleToggleIsLoggingIn = () => {
-        setUserName("");
-        setEmail("");
-        setPassword("");
-
+        setLoginInfo({ userName: "", email: "", password: "" });
         setIsLoggingIn(prevIsLoggingIn => !prevIsLoggingIn);
+        setPasswordVisible(false);
     }
+
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
 
     return (
         <AnimatePresence>
@@ -84,35 +79,56 @@ const Login = (props) => {
                         <div className="content--authentication">
                             {
                                 !isLoggingIn &&
-                                <div className="authentication-input">
+                                <div className="cta-form-input">
+                                    <label htmlFor="username">Usuário</label>
                                     <input
-                                        className="header-options--input"
-                                        placeholder="Nome de usuário"
+                                        id="username"
                                         type="text"
-                                        value={userName}
-                                        onChange={(event) => setUserName(event.target.value)}
+                                        value={loginInfo.userName}
+                                        onChange={(event) => setLoginInfo({ ...loginInfo, userName: event.target.value })}
                                     />
                                 </div>
                             }
 
-                            <div className="authentication-input">
+                            <div className="cta-form-input">
+                                <label htmlFor="email">Email</label>
                                 <input
-                                    className="header-options--input"
-                                    placeholder="E-mail"
+                                    id="email"
                                     type="text"
-                                    value={email}
-                                    onChange={(event) => setEmail(event.target.value)}
+                                    value={loginInfo.email}
+                                    onChange={(event) => setLoginInfo({ ...loginInfo, email: event.target.value })}
                                 />
                             </div>
 
-                            <div className="authentication-input">
-                                <input
-                                    className="header-options--input"
-                                    placeholder="Senha"
-                                    type="text"
-                                    value={password}
-                                    onChange={(event) => setPassword(event.target.value)}
-                                />
+                            <div className="cta-form-input">
+                                <label htmlFor="password">Senha</label>
+                                <div className="password-input-container">
+                                    <input
+                                        className="input-password"
+                                        id="password"
+                                        type={passwordVisible ? 'text' : 'password'}
+                                        value={loginInfo.password}
+                                        onChange={(event) => setLoginInfo({ ...loginInfo, password: event.target.value })}
+                                    />
+                                    <span className="password-toggle" onClick={togglePasswordVisibility}>
+                                        {
+                                            passwordVisible
+                                                ?
+                                                <ion-icon name="eye-off-outline"></ion-icon>
+                                                :
+                                                <ion-icon name="eye-outline"></ion-icon>
+                                        }
+                                    </span>
+                                </div>
+
+                                <div className="password-options">
+                                    <div className="remember-me">
+                                        <ion-icon name="square-outline"></ion-icon>
+                                        Lembrar-me
+                                    </div>
+
+                                    <h5>Esqueceu a senha?</h5>
+                                </div>
                             </div>
 
                             <div className="authentication-button" onClick={() => handleAuthentication()}>

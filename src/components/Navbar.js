@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Login from "./Login";
+import { useHistory } from "react-router-dom";
 
 const Navbar = () => {
+    const history = useHistory();
+
     const [showMenu, setShowMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
     const [bgOpacity, setBgOpacity] = useState(0);
+    const [userPhoto, setUserPhoto] = useState("");
 
     function handleMenuClick() {
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
         if (userLogged) {
             setShowMenu(!showMenu);
+            setUserPhoto(userLogged.profilePicture);
 
         } else {
             toggleShowLogin();
@@ -28,11 +33,29 @@ const Navbar = () => {
         }
     }
 
+    function handleLogout() {
+        localStorage.removeItem("UserInfo");
+        history.push("/");
+
+        window.location.reload();
+    }
+
+    useEffect(() => {
+        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+
+        if (userLogged) {
+            setUserPhoto(userLogged.profilePicture);
+        }
+    })
+
     return (
         <React.Fragment>
             <header className="header">
                 <a href="/">
-                    <img className="logo" src={require("../util/images/logo.png")} alt=""/>
+                    <img
+                        className="logo"
+                        src={require("../util/images/logo.png")}
+                        alt=""/>
                 </a>
 
                 <div className="header-options">
@@ -63,29 +86,38 @@ const Navbar = () => {
                     </div>
 
                     <div className="header-user--info" onClick={handleMenuClick}>
-                        <img className="header-user--menu" src={require("../util/icons/menu.png")} alt=""/>
-                        <img className="header-user--profile" src={require("../util/icons/profile.png")} alt=""/>
+                        <img
+                            className="header-user--menu"
+                            src={require("../util/icons/menu.png")}
+                            alt=""
+                        />
+
+                        <img
+                            className="header-user--profile"
+                            src={userPhoto !== "" ? userPhoto : require("../util/icons/profile.png")}
+                            alt=""
+                        />
                     </div>
 
                     {
                         showMenu && (
                             <div className="header-user--options">
                                 <ul className="options-list">
-                                    <a href="/product">
+                                    <a href="/novo-produto">
                                         <li className="option">
-                                            <ion-icon name="apps-outline" size="small"></ion-icon>
-                                            <span>Painel</span>
+                                            <ion-icon name="duplicate-outline" size="small"></ion-icon>
+                                            <span>Novo produto</span>
                                         </li>
                                     </a>
 
-                                    <a href="/account">
+                                    <a href="/configuracao-de-conta">
                                         <li className="option">
                                             <ion-icon name="person-outline" size="small"></ion-icon>
                                             <span>Detalhes da conta</span>
                                         </li>
                                     </a>
 
-                                    <li className="option border-top">
+                                    <li className="option border-top" onClick={handleLogout}>
                                         <ion-icon name="exit-outline" size="small"></ion-icon>
                                         <span>Logout</span>
                                     </li>

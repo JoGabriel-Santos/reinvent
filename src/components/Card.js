@@ -6,7 +6,7 @@ const Card = ({ productData }) => {
 
     const redirectToDetails = () => {
         history.push({
-            pathname: "/details",
+            pathname: "/detalhes-do-produto",
             state: { productData }
         });
     };
@@ -18,10 +18,17 @@ const Card = ({ productData }) => {
             <div className="card-design--info">
                 <div className="info-uploader">
                     <img className="uploader-image" src={productData.creator.profilePicture} alt=""/>
-                    <h2 className="uploader-name">{productData.creator.displayName}</h2>
+                    <h2 className="uploader-name">{productData.creator.userName}</h2>
                 </div>
 
-                <h4 className="info-title">{productData.productName}</h4>
+                <div className="product--name-likes">
+                    <h4 className="info-title">{productData.productName}</h4>
+
+                    <div className="info-likes">
+                        <img src={require("../util/icons/heart.png")} alt=""/>
+                        <span>0</span>
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import * as API from "../api";
+import { useHistory } from "react-router-dom";
 
 const Product = () => {
+
+    const history = useHistory();
 
     const [productInfo, setProductInfo] = useState(
         {
             productName: "",
             productPrice: "",
             productPicture: "",
-            fileURL: ""
+            fileURL: "",
+            tags: []
         }
     );
 
@@ -23,12 +27,38 @@ const Product = () => {
         }
     };
 
+    const handleTagKeyPress = (event) => {
+        if (event.key === "Enter" && event.target.value.trim() !== "") {
+            event.preventDefault();
+
+            const newTag = event.target.value.trim();
+            const formattedTag = newTag.charAt(0).toUpperCase() + newTag.slice(1).toLowerCase();
+
+            setProductInfo({
+                ...productInfo,
+                tags: [...productInfo.tags, formattedTag],
+            });
+
+            event.target.value = "";
+        }
+    };
+
+    const handleDeleteTag = (index) => {
+        const updatedTags = productInfo.tags.filter((_, i) => i !== index);
+        setProductInfo({
+            ...productInfo,
+            tags: updatedTags,
+        });
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
         await API.publishProduct(userLogged, productInfo);
+
+        history.push("/");
     };
 
     return (
@@ -63,7 +93,7 @@ const Product = () => {
                 </div>
 
                 <form className="cta-form" action="">
-                    <div className="cta-form-name">
+                    <div className="cta-form-name--grid">
                         <div className="cta-form-input">
                             <label htmlFor="product-name">Nome do produto</label>
                             <input
@@ -86,13 +116,38 @@ const Product = () => {
                     </div>
 
                     <div className="cta-form-input">
-                        <label htmlFor="file-url">Link do arquivo PSD (Google Drive)</label>
+                        <label htmlFor="file-url">Link do arquivo PSD</label>
                         <input
                             id="file-url"
                             type="text"
                             value={productInfo.fileURL}
                             onChange={(event) => setProductInfo({ ...productInfo, fileURL: event.target.value })}
                         />
+                    </div>
+
+                    <div className="cta-form-input">
+                        <label htmlFor="tags">Tags (pressione Enter para adicionar)</label>
+                        <div className={`tags-input-container ${productInfo.tags.length === 0 ? "tags-input-empty" : ""}`}>
+                            {
+                                productInfo.tags.length === 0 ? (
+                                    <div className="tag-box">...</div>
+                                ) : (
+                                    productInfo.tags.map((tag, index) => (
+                                        <div
+                                            className="tag-box"
+                                            key={index}
+                                            onClick={() => handleDeleteTag(index)}>
+                                            {tag}
+                                        </div>
+                                    ))
+                                )}
+                        </div>
+                        <input
+                            id="tags"
+                            type="text"
+                            onKeyDown={(event) => handleTagKeyPress(event)}
+                        />
+
                     </div>
                 </form>
 

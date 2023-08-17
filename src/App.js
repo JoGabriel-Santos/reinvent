@@ -14,9 +14,9 @@ function App() {
                 <Navbar/>
                 <Switch>
                     <Route path="/" exact component={Home}/>
-                    <Route path="/details" exact component={Details}/>
-                    <Route path="/account" exact component={Account}/>
-                    <Route path="/product" exact component={Product}/>
+                    <Route path="/detalhes-do-produto" exact component={Details}/>
+                    <Route path="/configuracao-de-conta" exact component={Account}/>
+                    <Route path="/novo-produto" exact component={Product}/>
                 </Switch>
             </BrowserRouter>
         </React.Fragment>

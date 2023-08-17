@@ -5,8 +5,6 @@ const Details = () => {
     const location = useLocation();
     const productData = location.state.productData;
 
-    console.log(productData)
-
     return (
         <React.Fragment>
             <section className="section-details">
@@ -18,13 +16,13 @@ const Details = () => {
 
                         <div className="product--likes-downloads">
                             <div className="likes">
-                                <ion-icon name="heart-outline" size={"large"}></ion-icon>
-                                <p className="likes-text">Like (0)</p>
+                                <ion-icon name="heart-outline"></ion-icon>
+                                <p className="likes-text">Like ({productData.likes.length})</p>
                             </div>
 
                             <div className="downloads">
-                                <ion-icon name="cloud-download-outline" size={"large"}></ion-icon>
-                                <p className="likes-text">0 downloads</p>
+                                <ion-icon name="download-outline"></ion-icon>
+                                <p className="likes-text">{productData.downloads} downloads</p>
                             </div>
                         </div>
                     </div>
@@ -61,9 +59,24 @@ const Details = () => {
 
                         <a href={productData.fileURL} target="_blank" rel="noopener noreferrer">
                             <div className="info--button">
-                                DOWNLOAD (200 MB)
+                                DOWNLOAD
                             </div>
                         </a>
+
+                        <div className="designer-info">
+                            <div className="designer-info--details">
+                                <img src={productData.creator.profilePicture} alt=""/>
+
+                                <div className="details-name">
+                                    <h2>{productData.creator.userName}</h2>
+                                    <h6>0 arquivos</h6>
+                                </div>
+                            </div>
+
+                            <div className="designer--follow-button">
+                                Seguir
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
