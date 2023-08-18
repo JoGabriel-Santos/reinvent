@@ -3,18 +3,19 @@ import * as API from "../api";
 import { useHistory } from "react-router-dom";
 
 const Product = () => {
-
     const history = useHistory();
 
-    const [productInfo, setProductInfo] = useState(
-        {
-            productName: "",
-            productPrice: "",
-            productPicture: "",
-            fileURL: "",
-            tags: []
-        }
-    );
+    const [productInfo, setProductInfo] = useState({
+        productName: "",
+        productPrice: "",
+        productPicture: "",
+        fileURL: "",
+        tags: []
+    });
+    const [errorMessage, setErrorMessage] = useState({
+        productName: "",
+        fileURL: "",
+    });
 
     const handleProductPictureChange = (event) => {
         const file = event.target.files[0];
@@ -23,8 +24,11 @@ const Product = () => {
         reader.readAsDataURL(file);
 
         reader.onloadend = () => {
-            setProductInfo({ ...productInfo, productPicture: reader.result.toString() });
-        }
+            setProductInfo(prevProductInfo => ({
+                ...prevProductInfo,
+                productPicture: reader.result.toString()
+            }));
+        };
     };
 
     const handleTagKeyPress = (event) => {
@@ -32,12 +36,12 @@ const Product = () => {
             event.preventDefault();
 
             const newTag = event.target.value.trim();
-            const formattedTag = newTag.charAt(0).toUpperCase() + newTag.slice(1).toLowerCase();
+            const formattedTag = capitalizeFirstLetter(newTag);
 
-            setProductInfo({
-                ...productInfo,
-                tags: [...productInfo.tags, formattedTag],
-            });
+            setProductInfo(prevProductInfo => ({
+                ...prevProductInfo,
+                tags: [...prevProductInfo.tags, formattedTag],
+            }));
 
             event.target.value = "";
         }
@@ -45,20 +49,43 @@ const Product = () => {
 
     const handleDeleteTag = (index) => {
         const updatedTags = productInfo.tags.filter((_, i) => i !== index);
-        setProductInfo({
-            ...productInfo,
+        setProductInfo(prevProductInfo => ({
+            ...prevProductInfo,
             tags: updatedTags,
-        });
+        }));
+    };
+
+    const capitalizeFirstLetter = (text) => {
+        return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+        if (!productInfo.productName) {
+            setErrorMessage({
+                ...errorMessage,
+                productName: "Defina o nome do produto para continuar...",
+            });
+            return;
+        }
 
-        await API.publishProduct(userLogged, productInfo);
+        if (!productInfo.fileURL) {
+            setErrorMessage({
+                ...errorMessage,
+                fileURL: "Insira o link para o arquivo...",
+            });
+            return;
+        }
 
-        history.push("/");
+        try {
+            const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
+            await API.publishProduct(userLogged, productInfo);
+            history.push("/");
+
+        } catch (error) {
+            console.log(error.response);
+        }
     };
 
     return (
@@ -95,19 +122,30 @@ const Product = () => {
                 <form className="cta-form" action="">
                     <div className="cta-form-name--grid">
                         <div className="cta-form-input">
-                            <label htmlFor="product-name">Nome do produto</label>
+                            <div className="label">
+                                <label htmlFor="product-name">Nome do produto</label>
+                                <label htmlFor="product-name">
+                                    {errorMessage.productName}
+                                </label>
+                            </div>
                             <input
                                 id="product-name"
                                 type="text"
                                 value={productInfo.productName}
                                 onChange={(event) => setProductInfo({ ...productInfo, productName: event.target.value })}
+                                onFocus={() =>
+                                    setErrorMessage({
+                                        ...errorMessage,
+                                        productName: "",
+                                    })
+                                }
                             />
                         </div>
 
                         <div className="cta-form-input">
                             <label htmlFor="product-price">Preço (R$)</label>
                             <input
-                                id="display-name"
+                                id="product-price"
                                 type="number"
                                 value={productInfo.productPrice}
                                 onChange={(event) => setProductInfo({ ...productInfo, productPrice: event.target.value })}
@@ -116,12 +154,23 @@ const Product = () => {
                     </div>
 
                     <div className="cta-form-input">
-                        <label htmlFor="file-url">Link do arquivo PSD</label>
+                        <div className="label">
+                            <label htmlFor="file-url">Link do arquivo PSD</label>
+                            <label htmlFor="file-url">
+                                {errorMessage.fileURL}
+                            </label>
+                        </div>
                         <input
                             id="file-url"
                             type="text"
                             value={productInfo.fileURL}
                             onChange={(event) => setProductInfo({ ...productInfo, fileURL: event.target.value })}
+                            onFocus={() =>
+                                setErrorMessage({
+                                    ...errorMessage,
+                                    fileURL: "",
+                                })
+                            }
                         />
                     </div>
 
@@ -147,7 +196,6 @@ const Product = () => {
                             type="text"
                             onKeyDown={(event) => handleTagKeyPress(event)}
                         />
-
                     </div>
                 </form>
 
