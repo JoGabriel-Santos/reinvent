@@ -5,6 +5,15 @@ const Details = () => {
     const location = useLocation();
     const productData = location.state.productData;
 
+    const renderBenefits = (benefits) => {
+        return benefits.map((benefit, index) => (
+            <li className="benefit" key={index}>
+                <img src={require(`../util/icons/${benefit.icon}`)} alt=""/>
+                <span>{benefit.text}</span>
+            </li>
+        ));
+    };
+
     return (
         <React.Fragment>
             <section className="section-details">
@@ -36,25 +45,12 @@ const Details = () => {
                         </div>
 
                         <ul className="info-benefits">
-                            <li className="benefit">
-                                <img src={require("../util/icons/checkmark.png")} alt=""/>
-                                <span>Para projetos comerciais e pessoais</span>
-                            </li>
-
-                            <li className="benefit">
-                                <img src={require("../util/icons/checkmark.png")} alt=""/>
-                                <span>Não precisa atribuir o autor</span>
-                            </li>
-
-                            <li className="benefit">
-                                <img src={require("../util/icons/checkmark.png")} alt=""/>
-                                <span>Velocidade máxima</span>
-                            </li>
-
-                            <li className="benefit">
-                                <img src={require("../util/icons/checkmark.png")} alt=""/>
-                                <span>Qualidade comprovada</span>
-                            </li>
+                            {renderBenefits([
+                                { icon: "checkmark.png", text: "Para projetos comerciais e pessoais" },
+                                { icon: "checkmark.png", text: "Não precisa atribuir o autor" },
+                                { icon: "checkmark.png", text: "Velocidade máxima" },
+                                { icon: "checkmark.png", text: "Qualidade comprovada" },
+                            ])}
                         </ul>
 
                         <a href={productData.fileURL} target="_blank" rel="noopener noreferrer">
@@ -66,7 +62,6 @@ const Details = () => {
                         <div className="designer-info">
                             <div className="designer-info--details">
                                 <img src={productData.creator.profilePicture} alt=""/>
-
                                 <div className="details-name">
                                     <h2>{productData.creator.userName}</h2>
                                     <h6>0 arquivos</h6>

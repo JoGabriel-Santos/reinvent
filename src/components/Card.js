@@ -17,7 +17,11 @@ const Card = ({ productData }) => {
 
             <div className="card-design--info">
                 <div className="info-uploader">
-                    <img className="uploader-image" src={productData.creator.profilePicture} alt=""/>
+                    <img
+                        className="uploader-image"
+                        src={productData.creator.profilePicture}
+                        alt=""
+                    />
                     <h2 className="uploader-name">{productData.creator.userName}</h2>
                 </div>
 
@@ -31,7 +35,7 @@ const Card = ({ productData }) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Card;

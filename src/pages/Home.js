@@ -6,25 +6,32 @@ const Home = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [products, setProducts] = useState([]);
 
-    const updateProductList = async () => {
-        const productsData = await API.getProducts();
-        setProducts(productsData.data);
+    const fetchProducts = async () => {
+        try {
+            const productsData = await API.getProducts();
+            setProducts(productsData.data);
+
+        } catch (error) {
+            console.error("Error fetching products:", error.message);
+
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     useEffect(() => {
-        const fetchProducts = async () => {
-            try {
-                await updateProductList();
-                setIsLoading(false);
-
-            } catch (error) {
-                console.log(error.message);
-                setIsLoading(false);
-            }
-        };
-
         fetchProducts();
     }, []);
+
+    const renderProductCards = () => {
+        if (isLoading) {
+            return <p className="loading-products">Carregando produtos...</p>;
+        }
+
+        return products.map((product, index) => (
+            <Card key={index} productData={product}/>
+        ));
+    };
 
     return (
         <React.Fragment>
@@ -45,24 +52,9 @@ const Home = () => {
 
             <section className="section-filters">
                 <div className="filters-content">
-                    <div className="filters-button">
-                        <ion-icon name="document-outline"></ion-icon>
-                        <span>Formato</span>
-                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
-                    </div>
-
-                    <div className="filters-button">
-                        <ion-icon name="star-outline"></ion-icon>
-                        <span>Licença</span>
-                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
-                    </div>
-
-                    <div className="filters-button">
-                        <ion-icon name="sync-outline"></ion-icon>
-                        <span>Orientação</span>
-                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
-                    </div>
-
+                    {renderFiltersButton("document-outline", "Formato")}
+                    {renderFiltersButton("star-outline", "Licença")}
+                    {renderFiltersButton("sync-outline", "Orientação")}
                     <div className="filters-button">
                         <ion-icon name="square-outline"></ion-icon>
                         <span>Conteúdo exclusivo</span>
@@ -70,28 +62,23 @@ const Home = () => {
                 </div>
 
                 <div className="filters-sort">
-                    <div className="filters-button">
-                        <ion-icon name="reorder-three-outline"></ion-icon>
-                        <span>Em alta</span>
-                        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
-                    </div>
+                    {renderFiltersButton("reorder-three-outline", "Em alta")}
                 </div>
             </section>
 
             <section className="section-designs">
-                <div className="section-designs--grid">
-                    {
-                        isLoading ? (
-                            <p className="loading-products">Carregando produtos...</p>
-                        ) : (
-                            products.map((product, index) => (
-                                <Card productData={product} key={index}/>
-                            ))
-                        )}
-                </div>
+                <div className="section-designs--grid">{renderProductCards()}</div>
             </section>
         </React.Fragment>
     );
 };
+
+const renderFiltersButton = (iconName, label) => (
+    <div className="filters-button">
+        <ion-icon name={iconName}></ion-icon>
+        <span>{label}</span>
+        <ion-icon name="chevron-down-outline" size="small"></ion-icon>
+    </div>
+);
 
 export default Home;

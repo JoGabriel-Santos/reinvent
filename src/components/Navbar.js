@@ -1,16 +1,26 @@
 import React, { useEffect, useState } from "react";
-import Login from "./Login";
 import { useHistory } from "react-router-dom";
+import Login from "./Login";
 
 const Navbar = () => {
     const history = useHistory();
 
-    const [showMenu, setShowMenu] = useState(false);
     const [showLogin, setShowLogin] = useState(false);
-    const [bgOpacity, setBgOpacity] = useState(0);
+    const [showMenu, setShowMenu] = useState(false);
     const [userPhoto, setUserPhoto] = useState("");
+    const [bgOpacity, setBgOpacity] = useState(0);
 
-    function handleMenuClick() {
+    const toggleShowLogin = () => {
+        setShowLogin(!showLogin);
+
+        if (showLogin) {
+            setBgOpacity(0);
+        } else {
+            setBgOpacity(0.6);
+        }
+    };
+
+    const handleMenuClick = () => {
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
         if (userLogged) {
@@ -20,46 +30,30 @@ const Navbar = () => {
         } else {
             toggleShowLogin();
         }
-    }
+    };
 
-    function toggleShowLogin() {
-        setShowLogin(!showLogin);
-
-        if (showLogin) {
-            setBgOpacity(0);
-
-        } else {
-            setBgOpacity(0.6);
-        }
-    }
-
-    function handleLogout() {
+    const handleLogout = () => {
         localStorage.removeItem("UserInfo");
         history.push("/");
-
         window.location.reload();
-    }
+    };
 
     useEffect(() => {
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
-
         if (userLogged) {
             setUserPhoto(userLogged.profilePicture);
         }
-    })
+    }, []);
 
     return (
         <React.Fragment>
             <header className="header">
                 <a href="/">
-                    <img
-                        className="logo"
-                        src={require("../util/images/logo.png")}
-                        alt=""/>
+                    <img className="logo" src={require("../util/images/logo.png")} alt="" />
                 </a>
 
                 <div className="header-options">
-                    <input className="header-options--input" placeholder="Pesquise alguma coisa" type="text"/>
+                    <input className="header-options--input" placeholder="Pesquise alguma coisa" type="text" />
 
                     <div className="header-options--search">
                         <ion-icon name="search-outline"></ion-icon>
@@ -86,11 +80,7 @@ const Navbar = () => {
                     </div>
 
                     <div className="header-user--info" onClick={handleMenuClick}>
-                        <img
-                            className="header-user--menu"
-                            src={require("../util/icons/menu.png")}
-                            alt=""
-                        />
+                        <img className="header-user--menu" src={require("../util/icons/menu.png")} alt="" />
 
                         <img
                             className="header-user--profile"
@@ -99,38 +89,38 @@ const Navbar = () => {
                         />
                     </div>
 
-                    {
-                        showMenu && (
-                            <div className="header-user--options">
-                                <ul className="options-list">
-                                    <a href="/novo-produto">
-                                        <li className="option">
-                                            <ion-icon name="duplicate-outline" size="small"></ion-icon>
-                                            <span>Novo produto</span>
-                                        </li>
-                                    </a>
-
-                                    <a href="/configuracao-de-conta">
-                                        <li className="option">
-                                            <ion-icon name="person-outline" size="small"></ion-icon>
-                                            <span>Detalhes da conta</span>
-                                        </li>
-                                    </a>
-
-                                    <li className="option border-top" onClick={handleLogout}>
-                                        <ion-icon name="exit-outline" size="small"></ion-icon>
-                                        <span>Logout</span>
+                    {showMenu && (
+                        <div className="header-user--options">
+                            <ul className="options-list">
+                                <a href="/novo-produto">
+                                    <li className="option">
+                                        <ion-icon name="duplicate-outline" size="small"></ion-icon>
+                                        <span>Novo produto</span>
                                     </li>
-                                </ul>
-                            </div>
-                        )
-                    }
+                                </a>
+
+                                <a href="/configuracao-de-conta">
+                                    <li className="option">
+                                        <ion-icon name="person-outline" size="small"></ion-icon>
+                                        <span>Detalhes da conta</span>
+                                    </li>
+                                </a>
+
+                                <li className="option border-top" onClick={handleLogout}>
+                                    <ion-icon name="exit-outline" size="small"></ion-icon>
+                                    <span>Logout</span>
+                                </li>
+                            </ul>
+                        </div>
+                    )}
                 </div>
             </header>
 
             <section className="section-categories">
                 <ul className="section-categories--list">
-                    <li className="categories-list"><a href="/">Home</a></li>
+                    <li className="categories-list">
+                        <a href="/">Home</a>
+                    </li>
                     <li className="categories-list">Coleções</li>
                     <li className="categories-list">PSD</li>
                     <li className="categories-list">PNG</li>
@@ -147,9 +137,7 @@ const Navbar = () => {
                 </ul>
             </section>
 
-            {
-                showLogin && <Login closeLogin={toggleShowLogin}/>
-            }
+            {showLogin && <Login closeLogin={toggleShowLogin} />}
 
             <div
                 style={{
@@ -164,9 +152,8 @@ const Navbar = () => {
                     bottom: 0,
                 }}
             />
-
         </React.Fragment>
-    )
-}
+    );
+};
 
 export default Navbar;
