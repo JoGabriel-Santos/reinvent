@@ -43,7 +43,7 @@ const Navbar = () => {
         if (userLogged) {
             setUserPhoto(userLogged.profilePicture);
         }
-    }, []);
+    });
 
     return (
         <React.Fragment>
