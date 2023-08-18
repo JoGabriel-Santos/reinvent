@@ -121,7 +121,13 @@ const Product = () => {
 
                 <form className="cta-form" action="">
                     <div className="cta-form-name--grid">
-                        <div className="cta-form-input">
+                        <div
+                            className={`cta-form-input ${
+                                errorMessage.productName !== ""
+                                    ? "cta-form-error"
+                                    : ""
+                            }`}
+                        >
                             <div className="label">
                                 <label htmlFor="product-name">Nome do produto</label>
                                 <label htmlFor="product-name">
@@ -153,7 +159,13 @@ const Product = () => {
                         </div>
                     </div>
 
-                    <div className="cta-form-input">
+                    <div
+                        className={`cta-form-input ${
+                            errorMessage.fileURL !== ""
+                                ? "cta-form-error"
+                                : ""
+                        }`}
+                    >
                         <div className="label">
                             <label htmlFor="file-url">Link do arquivo PSD</label>
                             <label htmlFor="file-url">
