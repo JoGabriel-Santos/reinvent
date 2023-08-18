@@ -323,28 +323,6 @@ ion-icon {
     background-color: #d33300;
 }
 
-.social-network:hover {
-    border: rgba(51, 51, 51, 0.8) 1px solid;
-    cursor: pointer;
-}
-
-.social-network--link {
-    align-items: center;
-    font-size: 1.6rem;
-    display: flex;
-    justify-content: center;
-    position: relative;
-    width: 42rem;
-}
-
-.social-network--link img {
-    left: 0;
-    position: absolute;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 2rem;
-}
-
 /* ----------- CATEGORIES ----------- */
 
 .section-categories {
