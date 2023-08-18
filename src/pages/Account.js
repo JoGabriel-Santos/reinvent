@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import * as API from "../api";
 
 const Account = () => {
-
-    const [userInfo, setUserInfo] = useState(
-        {
-            userName: "",
-            newEmail: "",
-            curEmail: "",
-            profilePicture: "",
-            newPassword: "",
-            curPassword: ""
-        }
-    );
+    const [userInfo, setUserInfo] = useState({
+        userName: "",
+        newEmail: "",
+        curEmail: "",
+        profilePicture: "",
+        newPassword: "",
+        curPassword: "",
+    });
+    const [errorMessage, setErrorMessage] = useState("");
+    const [isChangesSaved, setIsChangesSaved] = useState(false);
 
     const handleProfilePictureChange = (event) => {
         const file = event.target.files[0];
@@ -21,30 +20,47 @@ const Account = () => {
         reader.readAsDataURL(file);
 
         reader.onloadend = () => {
-            setUserInfo({ ...userInfo, profilePicture: reader.result.toString() });
-        }
+            setUserInfo((prevUserInfo) => ({
+                ...prevUserInfo,
+                profilePicture: reader.result.toString(),
+            }));
+        };
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        const { data } = await API.changeUserInfo(userInfo);
+        if (!userInfo.curPassword) {
+            setErrorMessage("Preencha este campo para continuar...");
+            return;
+        }
 
-        localStorage.setItem("UserInfo", JSON.stringify(data.result));
+        try {
+            const { data } = await API.changeUserInfo(userInfo);
+            localStorage.setItem("UserInfo", JSON.stringify(data.result));
+            setIsChangesSaved(true);
+
+            setTimeout(() => {
+                setIsChangesSaved(false);
+            }, 2000);
+
+        } catch (error) {
+            if (error.response?.status === 401) {
+                setErrorMessage("Senha incorreta...");
+            }
+        }
     };
 
     useEffect(() => {
         const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
-        setUserInfo(
-            {
-                ...userInfo,
-                userName: userLogged.userName,
-                newEmail: userLogged.email,
-                curEmail: userLogged.email,
-                profilePicture: userLogged.profilePicture || ""
-            }
-        );
+        setUserInfo((prevUserInfo) => ({
+            ...prevUserInfo,
+            userName: userLogged.userName,
+            newEmail: userLogged.email,
+            curEmail: userLogged.email,
+            profilePicture: userLogged.profilePicture || "",
+        }));
     }, []);
 
     return (
@@ -55,7 +71,11 @@ const Account = () => {
 
                 <div className="cta-form-picture">
                     <img
-                        src={userInfo.profilePicture !== "" ? userInfo.profilePicture : require("../util/icons/profile.png")}
+                        src={
+                            userInfo.profilePicture !== ""
+                                ? userInfo.profilePicture
+                                : require("../util/icons/profile.png")
+                        }
                         alt=""
                     />
 
@@ -69,7 +89,7 @@ const Account = () => {
                                 id="file-input"
                                 type="file"
                                 className="input"
-                                onChange={event => handleProfilePictureChange(event)}
+                                onChange={handleProfilePictureChange}
                             />
                         </label>
 
@@ -85,7 +105,12 @@ const Account = () => {
                                 id="username"
                                 type="text"
                                 value={userInfo.userName}
-                                onChange={(event) => setUserInfo({ ...userInfo, userName: event.target.value })}
+                                onChange={(event) =>
+                                    setUserInfo((prevUserInfo) => ({
+                                        ...prevUserInfo,
+                                        userName: event.target.value,
+                                    }))
+                                }
                             />
                         </div>
 
@@ -95,7 +120,12 @@ const Account = () => {
                                 id="email"
                                 type="email"
                                 value={userInfo.newEmail}
-                                onChange={(event) => setUserInfo({ ...userInfo, newEmail: event.target.value })}
+                                onChange={(event) =>
+                                    setUserInfo((prevUserInfo) => ({
+                                        ...prevUserInfo,
+                                        newEmail: event.target.value,
+                                    }))
+                                }
                             />
                         </div>
                     </div>
@@ -106,23 +136,46 @@ const Account = () => {
                             id="new-password"
                             type="password"
                             value={userInfo.newPassword}
-                            onChange={(event) => setUserInfo({ ...userInfo, newPassword: event.target.value })}
+                            onChange={(event) =>
+                                setUserInfo((prevUserInfo) => ({
+                                    ...prevUserInfo,
+                                    newPassword: event.target.value,
+                                }))
+                            }
                         />
                     </div>
 
-                    <div className="cta-form-input">
-                        <label htmlFor="password">Confirme sua senha atual</label>
+                    <div
+                        className={`cta-form-input ${
+                            errorMessage !== "" ? "cta-form-error" : ""
+                        }`}
+                    >
+                        <div className="label">
+                            <label htmlFor="password">Confirme sua senha atual</label>
+                            <label htmlFor="password">{errorMessage}</label>
+                        </div>
                         <input
                             id="password"
                             type="password"
                             value={userInfo.curPassword}
-                            onChange={(event) => setUserInfo({ ...userInfo, curPassword: event.target.value })}
+                            onChange={(event) =>
+                                setUserInfo((prevUserInfo) => ({
+                                    ...prevUserInfo,
+                                    curPassword: event.target.value,
+                                }))
+                            }
+                            onFocus={() => setErrorMessage("")}
                         />
                     </div>
                 </form>
 
-                <div className="info--button account--save-button" onClick={handleSubmit}>
-                    Salvar alterações
+                <div
+                    className={`info--button account--save-button ${
+                        isChangesSaved ? "saved" : ""
+                    }`}
+                    onClick={handleSubmit}
+                >
+                    {isChangesSaved ? "Alterações salvas" : "Salvar alterações"}
                 </div>
             </div>
         </section>

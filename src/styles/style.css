@@ -955,6 +955,11 @@ ion-icon {
     font-size: 1.8rem;
     font-weight: 400;
     margin-top: 4rem;
+    transition: .4s ease;
+}
+
+.saved {
+    background-color: green !important;
 }
 
 /* ----------- PRODUCT ----------- */
