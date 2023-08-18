@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import * as API from "../api";
 import { useHistory } from "react-router-dom";
+import * as API from "../api";
 
 const Product = () => {
     const history = useHistory();
