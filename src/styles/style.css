@@ -679,6 +679,7 @@ ion-icon {
     height: 40px;
     justify-content: center;
     transition: all 0.3s;
+    user-select: none;
     width: 100%;
 }
 
@@ -876,6 +877,7 @@ ion-icon {
 .label {
     display: flex;
     gap: 8px;
+    user-select: none;
 }
 
 .label label:nth-of-type(2) {
