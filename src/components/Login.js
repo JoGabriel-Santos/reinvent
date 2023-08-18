@@ -102,11 +102,6 @@ const Login = (props) => {
         setPasswordVisible(false);
     };
 
-    const validateEmail = (email) => {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return emailRegex.test(email);
-    };
-
     const handleUserNameFocus = () => {
         setErrorMessage({
             ...errorMessage,
@@ -128,6 +123,15 @@ const Login = (props) => {
         });
     };
 
+    const togglePasswordVisibility = () => {
+        setPasswordVisible(!passwordVisible);
+    };
+
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
     const handleEmailBlur = (event) => {
         const emailValue = event.target.value;
         if (!validateEmail(emailValue)) {
@@ -136,10 +140,6 @@ const Login = (props) => {
                 emailError: "Email inválido...",
             });
         }
-    };
-
-    const togglePasswordVisibility = () => {
-        setPasswordVisible(!passwordVisible);
     };
 
     return (
