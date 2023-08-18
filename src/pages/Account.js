@@ -10,7 +10,12 @@ const Account = () => {
         newPassword: "",
         curPassword: "",
     });
-    const [errorMessage, setErrorMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState({
+        emailError: "",
+        passwordError: "",
+    });
+    const [curPasswordVisible, setCurPasswordVisible] = useState(false);
+    const [newPasswordVisible, setNewPasswordVisible] = useState(false);
     const [isChangesSaved, setIsChangesSaved] = useState(false);
 
     const handleProfilePictureChange = (event) => {
@@ -27,11 +32,37 @@ const Account = () => {
         };
     };
 
+    const validateEmail = (email) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
+
+    const handleEmailBlur = (event) => {
+        const emailValue = event.target.value;
+        if (!validateEmail(emailValue)) {
+            setErrorMessage({
+                ...errorMessage,
+                emailError: "Email inválido...",
+            });
+        }
+    };
+
+    const toggleCurPasswordVisibility = () => {
+        setCurPasswordVisible(!curPasswordVisible);
+    };
+
+    const toggleNewPasswordVisibility = () => {
+        setNewPasswordVisible(!newPasswordVisible);
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         if (!userInfo.curPassword) {
-            setErrorMessage("Preencha este campo para continuar...");
+            setErrorMessage({
+                ...errorMessage,
+                passwordError: "Preencha este campo para continuar...",
+            });
             return;
         }
 
@@ -46,7 +77,10 @@ const Account = () => {
 
         } catch (error) {
             if (error.response?.status === 401) {
-                setErrorMessage("Senha incorreta...");
+                setErrorMessage({
+                    ...errorMessage,
+                    passwordError: "Senha incorreta...",
+                });
             }
         }
     };
@@ -114,8 +148,19 @@ const Account = () => {
                             />
                         </div>
 
-                        <div className="cta-form-input">
-                            <label htmlFor="email">Endereço de e-mail</label>
+                        <div
+                            className={`cta-form-input ${
+                                errorMessage.emailError !== ""
+                                    ? "cta-form-error"
+                                    : ""
+                            }`}
+                        >
+                            <div className="label">
+                                <label htmlFor="email">Endereço de e-mail</label>
+                                <label htmlFor="email">
+                                    {errorMessage.emailError}
+                                </label>
+                            </div>
                             <input
                                 id="email"
                                 type="email"
@@ -126,46 +171,84 @@ const Account = () => {
                                         newEmail: event.target.value,
                                     }))
                                 }
+                                onFocus={() =>
+                                    setErrorMessage({
+                                        ...errorMessage,
+                                        emailError: "",
+                                    })
+                                }
+                                onBlur={handleEmailBlur}
                             />
                         </div>
                     </div>
 
                     <div className="cta-form-input">
                         <label htmlFor="password">Nova senha</label>
-                        <input
-                            id="new-password"
-                            type="password"
-                            value={userInfo.newPassword}
-                            onChange={(event) =>
-                                setUserInfo((prevUserInfo) => ({
-                                    ...prevUserInfo,
-                                    newPassword: event.target.value,
-                                }))
-                            }
-                        />
+                        <div className="password-input-container">
+                            <input
+                                className="input-password"
+                                id="new-password"
+                                type={newPasswordVisible ? "text" : "password"}
+                                value={userInfo.newPassword}
+                                onChange={(event) =>
+                                    setUserInfo((prevUserInfo) => ({
+                                        ...prevUserInfo,
+                                        newPassword: event.target.value,
+                                    }))
+                                }
+                            />
+                            <span
+                                className="password-toggle"
+                                onClick={toggleNewPasswordVisibility}
+                            >
+                                {newPasswordVisible ? (
+                                    <ion-icon name="eye-off-outline"></ion-icon>
+                                ) : (
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                )}
+                            </span>
+                        </div>
                     </div>
 
                     <div
                         className={`cta-form-input ${
-                            errorMessage !== "" ? "cta-form-error" : ""
+                            errorMessage.passwordError !== "" ? "cta-form-error" : ""
                         }`}
                     >
                         <div className="label">
                             <label htmlFor="password">Confirme sua senha atual</label>
-                            <label htmlFor="password">{errorMessage}</label>
+                            <label htmlFor="password">{errorMessage.passwordError}</label>
                         </div>
-                        <input
-                            id="password"
-                            type="password"
-                            value={userInfo.curPassword}
-                            onChange={(event) =>
-                                setUserInfo((prevUserInfo) => ({
-                                    ...prevUserInfo,
-                                    curPassword: event.target.value,
-                                }))
-                            }
-                            onFocus={() => setErrorMessage("")}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                className="input-password"
+                                id="password"
+                                type={curPasswordVisible ? "text" : "password"}
+                                value={userInfo.curPassword}
+                                onChange={(event) =>
+                                    setUserInfo((prevUserInfo) => ({
+                                        ...prevUserInfo,
+                                        curPassword: event.target.value,
+                                    }))
+                                }
+                                onFocus={() =>
+                                    setErrorMessage({
+                                        ...errorMessage,
+                                        passwordError: "",
+                                    })
+                                }
+                            />
+                            <span
+                                className="password-toggle"
+                                onClick={toggleCurPasswordVisibility}
+                            >
+                                {newPasswordVisible ? (
+                                    <ion-icon name="eye-off-outline"></ion-icon>
+                                ) : (
+                                    <ion-icon name="eye-outline"></ion-icon>
+                                )}
+                            </span>
+                        </div>
                     </div>
                 </form>
 
