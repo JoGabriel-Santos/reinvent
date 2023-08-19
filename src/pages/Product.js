@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import * as API from "../api";
 
 const Product = () => {
     const history = useHistory();
+
+    const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
     const [productInfo, setProductInfo] = useState({
         productName: "",
@@ -79,7 +81,6 @@ const Product = () => {
         }
 
         try {
-            const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
             await API.publishProduct(userLogged, productInfo);
             history.push("/");
 
@@ -87,6 +88,13 @@ const Product = () => {
             console.log(error.response);
         }
     };
+
+    useEffect(() => {
+        if (userLogged.role === "client") {
+            history.push("/");
+        }
+
+    }, [userLogged, history]);
 
     return (
         <section className="section-forms">
