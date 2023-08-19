@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import Login from "./Login";
 
 const Navbar = () => {
     const history = useHistory();
+    const menuRef = useRef(null);
+
+    const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
 
     const [showLogin, setShowLogin] = useState(false);
     const [showMenu, setShowMenu] = useState(false);
@@ -21,14 +24,18 @@ const Navbar = () => {
     };
 
     const handleMenuClick = () => {
-        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
-
         if (userLogged) {
             setShowMenu(!showMenu);
             setUserPhoto(userLogged.profilePicture);
 
         } else {
             toggleShowLogin();
+        }
+    };
+
+    const handleClickOutsideMenu = (event) => {
+        if (menuRef.current && !menuRef.current.contains(event.target)) {
+            setShowMenu(false);
         }
     };
 
@@ -39,21 +46,42 @@ const Navbar = () => {
     };
 
     useEffect(() => {
-        const userLogged = JSON.parse(localStorage.getItem("UserInfo"));
         if (userLogged) {
             setUserPhoto(userLogged.profilePicture);
         }
     });
 
+    useEffect(() => {
+        if (showMenu) {
+            document.addEventListener(
+                "mousedown",
+                handleClickOutsideMenu
+            );
+
+        } else {
+            document.removeEventListener(
+                "mousedown",
+                handleClickOutsideMenu
+            );
+        }
+
+        return () => {
+            document.removeEventListener(
+                "mousedown",
+                handleClickOutsideMenu
+            );
+        };
+    }, [showMenu]);
+
     return (
         <React.Fragment>
             <header className="header">
                 <a href="/">
-                    <img className="logo" src={require("../util/images/logo.png")} alt="" />
+                    <img className="logo" src={require("../util/images/logo.png")} alt=""/>
                 </a>
 
                 <div className="header-options">
-                    <input className="header-options--input" placeholder="Pesquise alguma coisa" type="text" />
+                    <input className="header-options--input" placeholder="Pesquise alguma coisa" type="text"/>
 
                     <div className="header-options--search">
                         <ion-icon name="search-outline"></ion-icon>
@@ -80,24 +108,26 @@ const Navbar = () => {
                     </div>
 
                     <div className="header-user--info" onClick={handleMenuClick}>
-                        <img className="header-user--menu" src={require("../util/icons/menu.png")} alt="" />
+                        <img className="header-user--menu" src={require("../util/icons/menu.png")} alt=""/>
 
                         <img
                             className="header-user--profile"
-                            src={userPhoto !== "" ? userPhoto : require("../util/icons/profile.png")}
+                            src={userPhoto ? userPhoto : require("../util/icons/profile.png")}
                             alt=""
                         />
                     </div>
 
                     {showMenu && (
-                        <div className="header-user--options">
+                        <div className="header-user--options" ref={menuRef}>
                             <ul className="options-list">
-                                <a href="/novo-produto">
-                                    <li className="option">
-                                        <ion-icon name="duplicate-outline" size="small"></ion-icon>
-                                        <span>Novo produto</span>
-                                    </li>
-                                </a>
+                                {userLogged && userLogged.role !== "client" && (
+                                    <a href="/novo-produto">
+                                        <li className="option">
+                                            <ion-icon name="duplicate-outline" size="small"></ion-icon>
+                                            <span>Novo produto</span>
+                                        </li>
+                                    </a>
+                                )}
 
                                 <a href="/configuracao-de-conta">
                                     <li className="option">
@@ -137,7 +167,7 @@ const Navbar = () => {
                 </ul>
             </section>
 
-            {showLogin && <Login closeLogin={toggleShowLogin} />}
+            {showLogin && <Login closeLogin={toggleShowLogin}/>}
 
             <div
                 style={{
