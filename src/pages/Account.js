@@ -6,6 +6,7 @@ const Account = () => {
         userName: "",
         newEmail: "",
         curEmail: "",
+        description: "",
         profilePicture: "",
         newPassword: "",
         curPassword: "",
@@ -93,6 +94,7 @@ const Account = () => {
             userName: userLogged.userName,
             newEmail: userLogged.email,
             curEmail: userLogged.email,
+            description: userLogged.description || "",
             profilePicture: userLogged.profilePicture || "",
         }));
     }, []);
@@ -180,6 +182,21 @@ const Account = () => {
                                 onBlur={handleEmailBlur}
                             />
                         </div>
+                    </div>
+
+                    <div className="cta-form-input">
+                        <label htmlFor="description">Descrição</label>
+                        <textarea
+                            id="description"
+                            rows="2"
+                            value={userInfo.description}
+                            onChange={(event) =>
+                                setUserInfo((prevUserInfo) => ({
+                                    ...prevUserInfo,
+                                    description: event.target.value,
+                                }))
+                            }
+                        />
                     </div>
 
                     <div className="cta-form-input">

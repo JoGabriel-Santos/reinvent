@@ -5,10 +5,7 @@ const Card = ({ productData }) => {
     const history = useHistory();
 
     const redirectToDetails = () => {
-        history.push({
-            pathname: "/detalhes-do-produto",
-            state: { productData }
-        });
+        window.location.href = `/detalhes-do-produto/${productData._id}`;
     };
 
     return (
