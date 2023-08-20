@@ -8,11 +8,15 @@ const Creator = () => {
     const { creatorId } = useParams();
     const [isLoading, setIsLoading] = useState(true);
     const [creatorData, setCreatorData] = useState();
+    const [creatorStats, setCreatorStats] = useState();
 
     const fetchCreator = async () => {
         try {
             const creatorData = await API.getCreatorById(creatorId);
+            const creatorStats = await API.countCreatorStats(creatorId);
+
             setCreatorData(creatorData.data);
+            setCreatorStats(creatorStats.data);
 
         } catch (error) {
             console.error("Error fetching creator:", error.message);
@@ -21,6 +25,8 @@ const Creator = () => {
             setIsLoading(false);
         }
     };
+
+    console.log(creatorStats)
 
     useEffect(() => {
         fetchCreator();
@@ -48,18 +54,18 @@ const Creator = () => {
 
                                 <div className="container-info">
                                     <div className="info--details">
-                                        <div className="details-number">0</div>
+                                        <div className="details-number">{creatorStats.productCount}</div>
                                         <div className="details-description">ARQUIVOS</div>
                                     </div>
 
                                     <div className="info--details">
-                                        <div className="details-number">0</div>
-                                        <div className="details-description">DOWNLOADS</div>
+                                        <div className="details-number">{creatorStats.likesCount}</div>
+                                        <div className="details-description">CURTIDAS</div>
                                     </div>
 
                                     <div className="info--details">
-                                        <div className="details-number">0</div>
-                                        <div className="details-description">CURTIDAS</div>
+                                        <div className="details-number">{creatorStats.downloadsCount}</div>
+                                        <div className="details-description">DOWNLOADS</div>
                                     </div>
                                 </div>
                             </div>

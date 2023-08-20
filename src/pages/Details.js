@@ -22,6 +22,24 @@ const Details = () => {
         window.location.href = `/detalhes-do-criador/${productData.creator._id}`;
     };
 
+    const handleLike = async () => {
+        try {
+            await API.toggleLike(productId, { id_user: productData.creator._id });
+
+        } catch (error) {
+            console.error("Error like product:", error.message);
+        }
+    };
+
+    const handleDownload = async () => {
+        try {
+            await API.incrementDownloads(productId);
+
+        } catch (error) {
+            console.error("Error incrementing downloads:", error.message);
+        }
+    };
+
     const fetchProduct = async () => {
         try {
             const productData = await API.getProductById(productId);
@@ -52,7 +70,7 @@ const Details = () => {
                             </div>
 
                             <div className="product--likes-downloads">
-                                <div className="likes">
+                                <div className="likes" onClick={handleLike}>
                                     <ion-icon name="heart-outline"></ion-icon>
                                     <p className="likes-text">Like ({productData.likes.length})</p>
                                 </div>
@@ -81,7 +99,7 @@ const Details = () => {
                                 ])}
                             </ul>
 
-                            <a href={productData.fileURL} target="_blank" rel="noopener noreferrer">
+                            <a href={productData.fileURL} target="_blank" rel="noopener noreferrer" onClick={handleDownload}>
                                 <div className="info--button">
                                     DOWNLOAD
                                 </div>
@@ -92,7 +110,6 @@ const Details = () => {
                                     <img src={productData.creator.profilePicture} alt=""/>
                                     <div className="details-name">
                                         <h2>{productData.creator.userName}</h2>
-                                        <h6>0 arquivos</h6>
                                     </div>
                                 </div>
 

@@ -27,7 +27,7 @@ const Card = ({ productData }) => {
 
                     <div className="info-likes">
                         <img src={require("../util/icons/heart.png")} alt=""/>
-                        <span>0</span>
+                        <span>{productData.likes.length}</span>
                     </div>
                 </div>
             </div>

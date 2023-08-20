@@ -188,7 +188,7 @@ const Account = () => {
                         <label htmlFor="description">Descrição</label>
                         <textarea
                             id="description"
-                            rows="2"
+                            rows="3"
                             value={userInfo.description}
                             onChange={(event) =>
                                 setUserInfo((prevUserInfo) => ({
@@ -196,6 +196,7 @@ const Account = () => {
                                     description: event.target.value,
                                 }))
                             }
+                            style={{ resize: "none" }}
                         />
                     </div>
 

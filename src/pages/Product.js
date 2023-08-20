@@ -82,7 +82,7 @@ const Product = () => {
 
         try {
             await API.publishProduct(userLogged, productInfo);
-            history.push("/");
+            window.location.href = `/detalhes-do-criador/${userLogged._id}`;
 
         } catch (error) {
             console.log(error.response);

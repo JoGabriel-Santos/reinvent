@@ -595,6 +595,7 @@ ion-icon {
     display: flex;
     gap: .8rem;
     padding: 1rem 0;
+    user-select: none;
 }
 
 .likes, .downloads {
@@ -1068,6 +1069,7 @@ ion-icon {
 .details-number {
     font-size: 1.6rem;
     font-weight: 700;
+    margin-bottom: 5px;
 }
 
 .details-description {

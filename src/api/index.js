@@ -21,3 +21,6 @@ export const changeUserInfo = (userInfo) => API.patch("/user/changeUserInfo", us
 export const getProductById = (id_product) => API.get(`/product/getProductById/${id_product}`);
 export const getProducts = (id_creator) => API.get(`/product/getProducts/${id_creator}`);
 export const publishProduct = (userLogged, productInfo) => API.post("/product/publishProduct", { userLogged, productInfo });
+export const countCreatorStats = (id_creator) => API.post(`product/countCreatorStats/${id_creator}`);
+export const toggleLike = (id_product, id_user) => API.post(`product/toggleLike/${id_product}`, id_user);
+export const incrementDownloads = (id_product) => API.post(`product/incrementDownloads/${id_product}`);
