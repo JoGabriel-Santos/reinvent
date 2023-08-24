@@ -553,6 +553,7 @@ ion-icon {
 }
 
 .filters-button span {
+    margin-top: 2px;
     padding: 0 5px;
 }
 
